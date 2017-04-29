@@ -30,7 +30,10 @@ class FoursquareController < ApplicationController
     end
 
     activity_list = result.sort_by { |date, activity| date }.reverse.
-      map { |date, activity| activity.merge(date: date) }
+      map do |date, activity|
+        month = date.strftime("%b '%y")
+        activity.merge(date: date, month: month)
+      end
 
     render json: activity_list
   end

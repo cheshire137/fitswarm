@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import FitswarmApi from '../models/fitswarm-api'
 import LocalStorage from '../models/local-storage'
 
+import ActivityChart from './activity-chart.jsx'
 import ActivityListItem from './activity-list-item.jsx'
 
 class AuthHome extends React.Component {
@@ -14,7 +15,7 @@ class AuthHome extends React.Component {
     super(props)
     this.state = {
       isFitbitAuthenticated: LocalStorage.get('isFitbitAuthenticated'),
-      activities: []
+      activities: null
     }
   }
 
@@ -28,7 +29,6 @@ class AuthHome extends React.Component {
   }
 
   onActivityLoaded(activities) {
-    console.log(activities)
     this.setState({ activities })
   }
 
@@ -49,21 +49,33 @@ class AuthHome extends React.Component {
   }
 
   render() {
-    if (!this.state.isFitbitAuthenticated) {
+    const { isFitbitAuthenticated, activities } = this.state
+
+    if (!isFitbitAuthenticated) {
       return this.fitbitLogin()
     }
+
     return (
       <section className="section">
         <div className="container content">
           <h3 className="subtitle is-3">Activity for the last year:</h3>
-          <ul>
-            {this.state.activities.map(activity => (
-              <ActivityListItem
-                key={activity.date}
-                {...activity}
-              />
-            ))}
-          </ul>
+          <div id="activity-chart-container">
+            {activities ? (
+              <div>
+                <ActivityChart
+                  activities={activities}
+                />
+                <ul>
+                  {activities.map(activity => (
+                    <ActivityListItem
+                      key={activity.date}
+                      {...activity}
+                    />
+                  ))}
+                </ul>
+              </div>
+            ) : 'Loading...'}
+          </div>
         </div>
       </section>
     )
