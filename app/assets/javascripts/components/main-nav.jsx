@@ -1,20 +1,44 @@
 import PropTypes from 'prop-types'
 
 class MainNav extends React.Component {
-  authStatus() {
-    const { authPath, email } = this.props
-    if (email && email.length > 0) {
-      return (
+  authenticatedNav() {
+    const { email, authenticityToken } = this.props
+
+    return (
+      <div className="nav-right">
         <span
           className="nav-item"
-        >Signed in as {email}</span>
-      )
+        >{email}</span>
+        <form
+          action="/users/sign_out"
+          method="post"
+          className="nav-item"
+        >
+          <input name="_method" type="hidden" value="delete" />
+          <input name="authenticity_token" type="hidden" value={authenticityToken} />
+          <button
+            className="button is-link"
+            type="submit"
+          >Sign out</button>
+        </form>
+      </div>
+    )
+  }
+
+  authStatus() {
+    const { authPath, email } = this.props
+
+    if (email && email.length > 0) {
+      return this.authenticatedNav()
     }
+
     return (
-      <a
-        href={authPath}
-        className="nav-item"
-      >Sign in with Foursquare</a>
+      <div className="nav-right">
+        <a
+          href={authPath}
+          className="nav-item"
+        >Sign in with Foursquare</a>
+      </div>
     )
   }
 
@@ -22,9 +46,7 @@ class MainNav extends React.Component {
     return (
       <div className="container">
         <nav className="nav">
-          <div className="nav-right nav-menu">
-            {this.authStatus()}
-          </div>
+          {this.authStatus()}
         </nav>
       </div>
     )
@@ -33,7 +55,8 @@ class MainNav extends React.Component {
 
 MainNav.propTypes = {
   authPath: PropTypes.string.isRequired,
-  email: PropTypes.string
+  email: PropTypes.string,
+  authenticityToken: PropTypes.string.isRequired
 }
 
 export default MainNav

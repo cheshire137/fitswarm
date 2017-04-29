@@ -1,13 +1,18 @@
 import PropTypes from 'prop-types'
+
 import Header from './header.jsx'
 import MainNav from './main-nav.jsx'
 
 class App extends React.Component {
   render() {
-    const { authPath, email } = this.props
+    const { authPath, email, authenticityToken } = this.props
     return (
       <div>
-        <MainNav email={email} authPath={authPath} />
+        <MainNav
+          email={email}
+          authPath={authPath}
+          authenticityToken={authenticityToken}
+        />
         <Header />
       </div>
     )
@@ -16,7 +21,8 @@ class App extends React.Component {
 
 App.propTypes = {
   authPath: PropTypes.string.isRequired,
-  email: PropTypes.string
+  email: PropTypes.string,
+  authenticityToken: PropTypes.string.isRequired
 }
 
 export default App

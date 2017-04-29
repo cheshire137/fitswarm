@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' },
-    skip: [:sessions]
+  devise_for :users,
+    controllers: { omniauth_callbacks: 'users/omniauth_callbacks' },
+    sessions: 'users/sessions'
 
   scope defaults: { format: :json }, path: "/api" do
   end
