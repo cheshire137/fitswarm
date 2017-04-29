@@ -6,15 +6,17 @@ import LocalStorage from '../models/local-storage'
 class CheckinListItem extends React.Component {
   getTimestamp() {
     const date = new Date(this.props.createdAt * 1000)
-    return `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`
+    return `${date.toLocaleDateString()}`
   }
 
   render() {
-    const { venue } = this.props
+    const { venue, activities } = this.props
+    console.log(this.getTimestamp(), activities)
     return (
       <li>
         <strong className="venue-name">{venue.name}</strong>
-        &mdash; <time>{this.getTimestamp()}</time>
+        &mdash; <span> {activities.summary.steps}</span> step(s)
+        on <time>{this.getTimestamp()}</time>
       </li>
     )
   }
@@ -23,6 +25,7 @@ class CheckinListItem extends React.Component {
 CheckinListItem.propTypes = {
   createdAt: PropTypes.number.isRequired,
   venue: PropTypes.object.isRequired,
+  activities: PropTypes.object.isRequired
 }
 
 export default CheckinListItem

@@ -28,7 +28,6 @@ class AuthHome extends React.Component {
   }
 
   onCheckinsLoaded(checkins) {
-    console.log(checkins)
     this.setState({ checkins })
   }
 
@@ -55,6 +54,7 @@ class AuthHome extends React.Component {
     return (
       <section className="section">
         <div className="container content">
+          <h3 className="subtitle is-3">Your recent gym checkins:</h3>
           <ul>
             {this.state.checkins.map(checkin => (
               <CheckinListItem
