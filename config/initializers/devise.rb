@@ -249,10 +249,10 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :fitbit, ENV['FITBIT_APP_ID'], ENV['FITBIT_APP_SECRET'],
-    callback_url: "https://#{ENV['FITBIT_APP_HOST']}/users/auth/fitbit/callback",
+    callback_url: "#{ENV['FITBIT_APP_HOST']}/users/auth/fitbit/callback",
     scope: 'activity profile'
   config.omniauth :foursquare, ENV['FOURSQUARE_APP_ID'], ENV['FOURSQUARE_APP_SECRET'],
-    callback_url: "https://#{ENV['FOURSQUARE_APP_HOST']}/users/auth/foursquare/callback"
+    callback_url: "#{ENV['FOURSQUARE_APP_HOST']}/users/auth/foursquare/callback"
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

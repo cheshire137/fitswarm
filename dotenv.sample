@@ -1,0 +1,10 @@
+export RACK_ENV=development
+export PORT=3000
+
+export FITBIT_APP_ID=
+export FITBIT_APP_SECRET=
+export FITBIT_APP_HOST=http://localhost:3000
+
+export FOURSQUARE_APP_ID=
+export FOURSQUARE_APP_SECRET=
+export FOURSQUARE_APP_HOST=http://localhost:3000

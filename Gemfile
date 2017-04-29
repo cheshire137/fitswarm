@@ -65,3 +65,5 @@ gem 'omniauth-foursquare', '~> 1.0.1'
 gem 'browserify-rails', '~> 4.1.0'
 
 gem 'react-rails', '~> 1.10.0'
+
+gem 'compass-rails', '~> 3.0.2'
