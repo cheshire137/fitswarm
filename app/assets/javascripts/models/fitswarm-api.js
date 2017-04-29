@@ -16,4 +16,8 @@ export default class OverwatchTeamCompsApi extends Fetcher {
   getUser() {
     return this.get('/user', this.defaultHeaders).then(json => json.user)
   }
+
+  getFitbitActivities() {
+    return this.get('/fitbit/activities', this.defaultHeaders)
+  }
 }

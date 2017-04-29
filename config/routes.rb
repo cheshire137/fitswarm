@@ -3,8 +3,10 @@ Rails.application.routes.draw do
     controllers: { omniauth_callbacks: 'users/omniauth_callbacks' },
     sessions: 'users/sessions'
 
-  scope defaults: { format: :json }, path: "/api" do
-    get "/user" => "users#current", as: :current_user
+  scope defaults: { format: :json }, path: '/api' do
+    get '/user' => 'users#current', as: :current_user
+
+    get '/fitbit/activities' => 'fitbit#activities', as: :fitbit_activities
   end
 
   root to: 'home#index'

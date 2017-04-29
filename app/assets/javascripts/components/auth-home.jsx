@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 
+import FitswarmApi from '../models/fitswarm-api'
 import LocalStorage from '../models/local-storage'
 
 class AuthHome extends React.Component {
@@ -7,6 +8,15 @@ class AuthHome extends React.Component {
     super(props)
     this.state = {
       isFitbitAuthenticated: LocalStorage.get('isFitbitAuthenticated')
+    }
+  }
+
+  componentDidMount() {
+    if (this.state.isFitbitAuthenticated) {
+      const api = new FitswarmApi()
+      api.getFitbitActivities().then(json => {
+        console.log(json)
+      })
     }
   }
 
