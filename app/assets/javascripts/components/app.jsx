@@ -13,11 +13,13 @@ import NotFound from './not-found.jsx'
 function storeUserData(json) {
   LocalStorage.set('authenticity-token', json.authenticityToken)
   LocalStorage.set('email', json.email)
+  LocalStorage.set('isFitbitAuthenticated', json.isFitbitAuthenticated)
 }
 
 function clearUserData() {
   LocalStorage.delete('authenticity-token')
   LocalStorage.delete('email')
+  LocalStorage.delete('isFitbitAuthenticated')
 }
 
 function requireAuth(nextState, replace, callback) {

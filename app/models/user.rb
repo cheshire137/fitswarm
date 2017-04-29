@@ -7,5 +7,12 @@ class User < ApplicationRecord
 
   alias_attribute :to_s, :email
 
-  validates :email, :provider, :uid, presence: true
+  validates :email, :foursquare_uid, presence: true
+  validates :email, uniqueness: true
+
+  scope :with_email, ->(email) { where(email: email) }
+
+  def authenticated_with_fitbit?
+    fitbit_uid.present?
+  end
 end

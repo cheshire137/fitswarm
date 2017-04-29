@@ -1,22 +1,15 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  def fitbit
-    auth = request.env['omniauth.auth']
-    user = User.where(provider: auth.provider, uid: auth.uid).first
-    return sign_in_and_redirect(user, event: :authentication) if user
-
-    raise auth.inspect
-  end
+  before_action :authenticate_user!, only: [:fitbit]
 
   def foursquare
     auth = request.env['omniauth.auth']
-    user = User.where(provider: auth.provider, uid: auth.uid).first_or_initialize
+    user = User.where(email: auth.info.email).first_or_initialize
+    user.foursquare_access_token = auth.credentials.token
+    user.foursquare_uid = auth.uid
 
-    if user.persisted?
-      return sign_in_and_redirect(user, event: :authentication)
+    if user.new_record?
+      user.password = Devise.friendly_token[0, 20]
     end
-
-    user.email = auth.info.email
-    user.password = Devise.friendly_token[0, 20]
 
     if user.save
       sign_in_and_redirect(user, event: :authentication)
@@ -24,6 +17,20 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       flash[:error] = "Failed to sign up: #{user.errors.full_messages.join(', ')}"
       redirect_to root_path
     end
+  end
+
+  def fitbit
+    auth = request.env['omniauth.auth']
+
+    current_user.fitbit_uid = auth.uid
+    current_user.fitbit_access_token = auth.credentials.token
+    current_user.fitbit_refresh_token = auth.credentials.refresh_token
+
+    unless current_user.save
+      flash[:error] = "Failed to sign in with Fitbit: #{user.errors.full_messages.join(', ')}"
+    end
+
+    redirect_to root_path
   end
 
   def failure

@@ -31,8 +31,12 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.0]
       # t.datetime :locked_at
 
       # OAuth
-      t.string :provider
-      t.string :uid
+      t.string :foursquare_uid
+      t.string :foursquare_access_token
+
+      t.string :fitbit_uid
+      t.string :fitbit_access_token
+      t.string :fitbit_refresh_token
 
       t.timestamps null: false
     end
