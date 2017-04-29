@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     sessions: 'users/sessions'
 
   scope defaults: { format: :json }, path: "/api" do
+    get "/user" => "users#current", as: :current_user
   end
 
   root to: 'home#index'
