@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get '/user' => 'users#current', as: :current_user
 
     get '/fitbit/activities' => 'fitbit#activities', as: :fitbit_activities
+    get '/foursquare/checkins' => 'foursquare#checkins', as: :foursquare_checkins
   end
 
   root to: 'home#index'

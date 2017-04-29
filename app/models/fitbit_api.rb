@@ -5,7 +5,9 @@ class FitbitApi < Fetcher
 
   def activities(date)
     date_str = date.strftime('%Y-%m-%d')
-    json = get("/user/-/activities/date/#{date_str}.json")
+    path = "/user/-/activities/date/#{date_str}.json"
+    Rails.logger.info "#{base_url}#{path}"
+    json = get(path)
 
     return unless json
 
@@ -13,6 +15,7 @@ class FitbitApi < Fetcher
   end
 
   def refresh_tokens(refresh_token)
+    Rails.logger.info "Refreshing Fitbit access token"
     grant = Base64.strict_encode64("#{ENV['FITBIT_APP_ID']}:#{ENV['FITBIT_APP_SECRET']}")
 
     uri = URI.parse('https://api.fitbit.com/oauth2/token')

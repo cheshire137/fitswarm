@@ -20,4 +20,8 @@ export default class OverwatchTeamCompsApi extends Fetcher {
   getFitbitActivities() {
     return this.get('/fitbit/activities', this.defaultHeaders)
   }
+
+  getFoursquareCheckins() {
+    return this.get('/foursquare/checkins', this.defaultHeaders)
+  }
 }

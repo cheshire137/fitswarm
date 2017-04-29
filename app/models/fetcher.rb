@@ -38,8 +38,6 @@ class Fetcher
 
   def make_request(req_class, path, headers:)
     uri = get_uri(path)
-    Rails.logger.info "#{req_class::METHOD} #{uri}"
-
     http = get_http(uri)
     all_headers = get_headers.merge(headers)
     req = req_class.new(uri.request_uri, all_headers)
@@ -60,8 +58,7 @@ class Fetcher
     elsif res.code == '401'
       raise Unauthorized, res.message
     else
-      Rails.logger.error "Request URL: #{uri}"
-      Rails.logger.error res.body
+      Rails.logger.error "#{res.code} response: #{res.body}"
       nil
     end
   end
