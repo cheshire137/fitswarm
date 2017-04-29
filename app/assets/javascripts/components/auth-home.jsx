@@ -3,32 +3,33 @@ import PropTypes from 'prop-types'
 import FitswarmApi from '../models/fitswarm-api'
 import LocalStorage from '../models/local-storage'
 
-import CheckinListItem from './checkin-list-item.jsx'
+import ActivityListItem from './activity-list-item.jsx'
 
 class AuthHome extends React.Component {
-  static onCheckinsLoadError(error) {
-    console.error('failed to load Swarm checkins', error)
+  static onActivityLoadError(error) {
+    console.error('failed to load annual activity', error)
   }
 
   constructor(props) {
     super(props)
     this.state = {
       isFitbitAuthenticated: LocalStorage.get('isFitbitAuthenticated'),
-      checkins: []
+      activities: []
     }
   }
 
   componentDidMount() {
     if (this.state.isFitbitAuthenticated) {
       const api = new FitswarmApi()
-      api.getFoursquareGymCheckins().
-          then(checkins => this.onCheckinsLoaded(checkins)).
-          catch(err => AuthHome.onCheckinsLoadError(err))
+      api.getFoursquareAnnualActivity().
+          then(activities => this.onActivityLoaded(activities)).
+          catch(err => AuthHome.onActivityLoadError(err))
     }
   }
 
-  onCheckinsLoaded(checkins) {
-    this.setState({ checkins })
+  onActivityLoaded(activities) {
+    console.log(activities)
+    this.setState({ activities })
   }
 
   fitbitLogin() {
@@ -54,12 +55,12 @@ class AuthHome extends React.Component {
     return (
       <section className="section">
         <div className="container content">
-          <h3 className="subtitle is-3">Your recent gym checkins:</h3>
+          <h3 className="subtitle is-3">Activity for the last year:</h3>
           <ul>
-            {this.state.checkins.map(checkin => (
-              <CheckinListItem
-                key={checkin.id}
-                {...checkin}
+            {this.state.activities.map(activity => (
+              <ActivityListItem
+                key={activity.date}
+                {...activity}
               />
             ))}
           </ul>

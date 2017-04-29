@@ -3,6 +3,17 @@ class FitbitApi < Fetcher
     super('https://api.fitbit.com/1', token)
   end
 
+  # https://dev.fitbit.com/docs/activity/#activity-time-series
+  def yearly_steps
+    path = "/user/-/activities/steps/date/today/1y.json"
+    Rails.logger.info "#{base_url}#{path}"
+    json = get(path)
+
+    return unless json
+
+    json['activities-steps']
+  end
+
   def activities(date)
     date_str = date.strftime('%Y-%m-%d')
     path = "/user/-/activities/date/#{date_str}.json"

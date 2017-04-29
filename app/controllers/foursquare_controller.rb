@@ -1,20 +1,37 @@
 class FoursquareController < ApplicationController
   before_action :authenticate_user!
 
-  def gym_checkins
-    foursquare_api = FoursquareApi.new(current_user.foursquare_access_token)
-    checkins = foursquare_api.gym_checkins(Time.zone.now)
+  def annual_activity
+    result = {}
+    checkin_start_time = 1.year.ago
 
-    if checkins
-      fitbit_api = FitbitApi.new(current_user.fitbit_access_token)
-      checkins = checkins[0...10] # no more than ten at a time
+    fitbit_api = FitbitApi.new(current_user.fitbit_access_token)
+    steps = fitbit_api.yearly_steps
 
-      checkins.each do |checkin|
-        date = Time.at(checkin['createdAt'])
-        checkin['activities'] = fitbit_api.activities(date)
+    if steps
+      steps.each_with_index do |step, i|
+        time = Time.zone.parse(step['dateTime'])
+        checkin_start_time = time if i == 0
+        date = time.beginning_of_day
+        result[date] ||= {}
+        result[date]['stepCount'] = step['value'].to_i
       end
     end
 
-    render json: checkins
+    foursquare_api = FoursquareApi.new(current_user.foursquare_access_token)
+    checkins = foursquare_api.gym_checkins(checkin_start_time)
+
+    if checkins
+      checkins.each do |checkin|
+        date = Time.zone.at(checkin['createdAt']).beginning_of_day
+        result[date] ||= {}
+        result[date]['checkin'] = checkin
+      end
+    end
+
+    activity_list = result.sort_by { |date, activity| date }.reverse.
+      map { |date, activity| activity.merge(date: date) }
+
+    render json: activity_list
   end
 end

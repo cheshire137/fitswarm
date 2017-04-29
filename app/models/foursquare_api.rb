@@ -3,18 +3,12 @@ class FoursquareApi < Fetcher
     super('https://api.foursquare.com/v2', token)
   end
 
-  def checkins(date)
-    after = date.beginning_of_month.to_i
+  def gym_checkins(since_date)
+    after = since_date.to_i
     json = get_response("/users/self/checkins?afterTimestamp=#{after}")
-
     return unless json && json['checkins']
 
-    json['checkins']['items']
-  end
-
-  def gym_checkins(date)
-    checkins = checkins(date)
-
+    checkins = json['checkins']['items']
     return unless checkins
 
     checkins.select do |checkin|
