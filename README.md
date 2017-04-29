@@ -1,24 +1,23 @@
-# README
+# Fitswarm
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## How to Develop
 
-Things you may want to cover:
+You will need Ruby, Rubygems, PostgreSQL, and npm installed.
 
-* Ruby version
+```bash
+bundle install
+npm install
+bin/rake db:setup
+bundle exec rails s
+```
 
-* System dependencies
+Visit [localhost:3000](http://localhost:3000).
 
-* Configuration
+To add a new JavaScript package: `npm install WHATEVER_PACKAGE --save`
 
-* Database creation
+## How to Test
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```bash
+npm test # to run the JavaScript style checker and JavaScript tests
+bundle exec rspec # to run Rails tests
+```
