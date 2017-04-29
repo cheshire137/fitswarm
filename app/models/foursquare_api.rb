@@ -7,9 +7,20 @@ class FoursquareApi < Fetcher
     after = date.beginning_of_month.to_i
     json = get_response("/users/self/checkins?afterTimestamp=#{after}")
 
-    return unless json
+    return unless json && json['checkins']
 
-    json['checkins']
+    json['checkins']['items']
+  end
+
+  def gym_checkins(date)
+    checkins = checkins(date)
+
+    return unless checkins
+
+    checkins.select do |checkin|
+      categories = checkin['venue']['categories'].map { |cat| cat['name'] }
+      categories.include?('Gym')
+    end
   end
 
   private

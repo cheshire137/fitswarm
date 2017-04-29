@@ -14,7 +14,7 @@ class AuthHome extends React.Component {
   componentDidMount() {
     if (this.state.isFitbitAuthenticated) {
       const api = new FitswarmApi()
-      api.getFoursquareCheckins().then(json => {
+      api.getFoursquareGymCheckins().then(json => {
         console.log(json)
       })
     }

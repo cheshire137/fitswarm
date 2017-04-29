@@ -24,4 +24,8 @@ export default class OverwatchTeamCompsApi extends Fetcher {
   getFoursquareCheckins() {
     return this.get('/foursquare/checkins', this.defaultHeaders)
   }
+
+  getFoursquareGymCheckins() {
+    return this.get('/foursquare/checkins/gym', this.defaultHeaders)
+  }
 }
