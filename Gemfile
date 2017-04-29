@@ -38,6 +38,9 @@ gem 'jbuilder', '~> 2.5'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+
+  gem 'factory_girl_rails', '~> 4.8.0'
+  gem 'rspec-rails', '~> 3.5.0'
 end
 
 group :development do
@@ -51,3 +54,8 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem 'omniauth-oauth2', '~> 1.4.0'
+
+# CommonJS so we can do require
+gem 'browserify-rails', '~> 4.1.0'
