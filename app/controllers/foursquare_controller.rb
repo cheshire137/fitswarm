@@ -35,6 +35,15 @@ class FoursquareController < ApplicationController
         activity.merge(date: date, month: month)
       end
 
+    whole_months = []
+    activity_list.each do |data|
+      if data[:date].day == 1 && !whole_months.include?(data[:month])
+        whole_months << data[:month]
+      end
+    end
+
+    activity_list.reject! { |data| !whole_months.include?(data[:month]) }
+
     render json: activity_list
   end
 end

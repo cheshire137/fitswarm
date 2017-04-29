@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types'
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend } from 'recharts'
 
+import StepLabel from './step-label.jsx'
+
 class ActivityChart extends React.Component {
   getData() {
     const { activities } = this.props
     const months = {}
     const data = []
+
     for (let i = 0; i < activities.length; i++) {
       const month = activities[i].month
       const stepCount = activities[i].stepCount
@@ -16,12 +19,12 @@ class ActivityChart extends React.Component {
         months[month] = stepCount
       }
     }
-    console.log('months', months)
+
     for (const month in months) {
-      data.push({ month: month, stepCount: months[month] })
+      data.push({ month: month, Steps: months[month] })
     }
+
     data.reverse()
-    console.log('data', data)
     return data
   }
 
@@ -35,10 +38,7 @@ class ActivityChart extends React.Component {
         <YAxis type="number" />
         <Tooltip />
         <Legend />
-        <Line
-          type="monotone"
-          dataKey="stepCount"
-        />
+        <Line type="monotone" dataKey="Steps" label={<StepLabel />} />
       </LineChart>
     )
   }
