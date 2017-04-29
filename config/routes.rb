@@ -2,5 +2,11 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' },
     skip: [:sessions]
 
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  scope defaults: { format: :json }, path: "/api" do
+  end
+
+  root to: 'home#index'
+
+  # Catch-all route so React can handle routing
+  get '*path' => 'home#index'
 end

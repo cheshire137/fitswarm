@@ -33,7 +33,7 @@
     "browserify-incremental": "^3.1.1",
     "immutability-helper": "^2.1.2",
     "promise-polyfill": "^6.0.2",
-    "prop-types": "^15.5.6",
+    "prop-types": "^15.5.8",
     "react": "^15.4.2",
     "react-debounce-input": "^2.4.2",
     "react-dom": "^15.4.2",
