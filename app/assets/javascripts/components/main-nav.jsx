@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types'
 
 class MainNav extends React.Component {
-  render() {
+  authStatus() {
     const { authPath, email } = this.props
     if (email && email.length > 0) {
       return (
-        <span>Signed in as <strong>{email}</strong></span>
+        <span
+          className="nav-item"
+        >Signed in as {email}</span>
       )
     }
     return (
@@ -13,6 +15,18 @@ class MainNav extends React.Component {
         href={authPath}
         className="nav-item"
       >Sign in with Foursquare</a>
+    )
+  }
+
+  render() {
+    return (
+      <div className="container">
+        <nav className="nav">
+          <div className="nav-right nav-menu">
+            {this.authStatus()}
+          </div>
+        </nav>
+      </div>
     )
   }
 }

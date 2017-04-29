@@ -70,3 +70,4 @@ gem 'browserify-rails', '~> 4.1.0'
 gem 'react-rails', '~> 1.10.0'
 
 gem 'compass-rails', '~> 3.0.2'
+gem "bulma-rails", "~> 0.4.0"
