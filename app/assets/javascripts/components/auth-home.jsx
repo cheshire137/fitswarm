@@ -3,21 +3,33 @@ import PropTypes from 'prop-types'
 import FitswarmApi from '../models/fitswarm-api'
 import LocalStorage from '../models/local-storage'
 
+import CheckinListItem from './checkin-list-item.jsx'
+
 class AuthHome extends React.Component {
+  static onCheckinsLoadError(error) {
+    console.error('failed to load Swarm checkins', error)
+  }
+
   constructor(props) {
     super(props)
     this.state = {
-      isFitbitAuthenticated: LocalStorage.get('isFitbitAuthenticated')
+      isFitbitAuthenticated: LocalStorage.get('isFitbitAuthenticated'),
+      checkins: []
     }
   }
 
   componentDidMount() {
     if (this.state.isFitbitAuthenticated) {
       const api = new FitswarmApi()
-      api.getFoursquareGymCheckins().then(json => {
-        console.log(json)
-      })
+      api.getFoursquareGymCheckins().
+          then(checkins => this.onCheckinsLoaded(checkins)).
+          catch(err => AuthHome.onCheckinsLoadError(err))
     }
+  }
+
+  onCheckinsLoaded(checkins) {
+    console.log(checkins)
+    this.setState({ checkins })
   }
 
   fitbitLogin() {
@@ -37,12 +49,23 @@ class AuthHome extends React.Component {
   }
 
   render() {
-    if (this.state.isFitbitAuthenticated) {
-      return (
-        <p>Hello!</p>
-      )
+    if (!this.state.isFitbitAuthenticated) {
+      return this.fitbitLogin()
     }
-    return this.fitbitLogin()
+    return (
+      <section className="section">
+        <div className="container content">
+          <ul>
+            {this.state.checkins.map(checkin => (
+              <CheckinListItem
+                key={checkin.id}
+                {...checkin}
+              />
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
   }
 }
 
