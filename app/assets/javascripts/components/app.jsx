@@ -7,7 +7,7 @@ class App extends React.Component {
       <a
         href={authPath}
         className="nav-item"
-      >Sign in with Fitbit</a>
+      >Sign in with Foursquare</a>
     )
   }
 }
