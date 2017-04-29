@@ -58,6 +58,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise', '~> 4.2.0'
 
 gem 'omniauth-oauth2', '~> 1.4.0'
+gem 'omniauth-fitbit', '~> 2.0.0'
+gem 'omniauth-foursquare', '~> 1.0.1'
 
 # CommonJS so we can do require
 gem 'browserify-rails', '~> 4.1.0'
