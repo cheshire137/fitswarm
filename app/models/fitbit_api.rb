@@ -4,8 +4,10 @@ class FitbitApi < Fetcher
   end
 
   # https://dev.fitbit.com/docs/activity/#activity-time-series
-  def yearly_steps
-    path = "/user/-/activities/steps/date/today/1y.json"
+  def steps(start_date:, end_date:)
+    start_date_str = start_date.strftime('%Y-%m-%d')
+    end_date_str = end_date.strftime('%Y-%m-%d')
+    path = "/user/-/activities/steps/date/#{start_date_str}/#{end_date_str}.json"
     Rails.logger.info "#{base_url}#{path}"
     json = get(path)
 

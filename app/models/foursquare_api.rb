@@ -3,8 +3,8 @@ class FoursquareApi < Fetcher
     super('https://api.foursquare.com/v2', token)
   end
 
-  def gym_checkins(since_date)
-    after = since_date.to_i
+  def gym_checkins(start_time)
+    after = start_time.beginning_of_day.to_i
     json = get_response("/users/self/checkins?afterTimestamp=#{after}")
     return unless json && json['checkins']
 

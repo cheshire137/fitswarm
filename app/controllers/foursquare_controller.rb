@@ -3,28 +3,35 @@ class FoursquareController < ApplicationController
 
   def annual_activity
     result = {}
-    checkin_start_time = 1.year.ago
+    end_time = Time.zone.now
+    start_time = end_time.beginning_of_month - 1.year
+    start_date = start_time.to_date
+    end_date = end_time.to_date
+
+    start_date.upto(end_date) do |date|
+      result[date] = {}
+    end
 
     fitbit_api = FitbitApi.new(current_user.fitbit_access_token)
-    steps = fitbit_api.yearly_steps
+    steps = fitbit_api.steps(start_date: start_date, end_date: end_date)
 
     if steps
-      steps.each_with_index do |step, i|
-        time = Time.parse(step['dateTime'])
-        checkin_start_time = time if i == 0
-        date = time.beginning_of_day
-        result[date] ||= {}
+      steps.each do |step|
+        date = Time.parse(step['dateTime']).to_date
+        next unless result.key?(date)
+
         result[date]['stepCount'] = step['value'].to_i
       end
     end
 
     foursquare_api = FoursquareApi.new(current_user.foursquare_access_token)
-    checkins = foursquare_api.gym_checkins(checkin_start_time)
+    checkins = foursquare_api.gym_checkins(start_time)
 
     if checkins
       checkins.each do |checkin|
-        date = Time.at(checkin['createdAt']).beginning_of_day
-        result[date] ||= {}
+        date = Time.at(checkin['createdAt']).to_date
+        next unless result.key?(date)
+
         result[date]['checkin'] = checkin
       end
     end
@@ -34,15 +41,6 @@ class FoursquareController < ApplicationController
         month = date.strftime("%b '%y")
         activity.merge(date: date, month: month)
       end
-
-    whole_months = []
-    activity_list.each do |data|
-      if data[:date].day == 1 && !whole_months.include?(data[:month])
-        whole_months << data[:month]
-      end
-    end
-
-    activity_list.reject! { |data| !whole_months.include?(data[:month]) }
 
     render json: activity_list
   end
