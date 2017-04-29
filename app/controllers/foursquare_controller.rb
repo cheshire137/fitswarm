@@ -10,7 +10,7 @@ class FoursquareController < ApplicationController
 
     if steps
       steps.each_with_index do |step, i|
-        time = Time.zone.parse(step['dateTime'])
+        time = Time.parse(step['dateTime'])
         checkin_start_time = time if i == 0
         date = time.beginning_of_day
         result[date] ||= {}
@@ -23,7 +23,7 @@ class FoursquareController < ApplicationController
 
     if checkins
       checkins.each do |checkin|
-        date = Time.zone.at(checkin['createdAt']).beginning_of_day
+        date = Time.at(checkin['createdAt']).beginning_of_day
         result[date] ||= {}
         result[date]['checkin'] = checkin
       end
