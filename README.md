@@ -22,6 +22,7 @@ Modify .env with your values.
 
 ```bash
 bundle exec rails s
+open http://localhost:3000
 ```
 
 Visit [localhost:3000](http://localhost:3000).
