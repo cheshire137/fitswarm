@@ -1,6 +1,6 @@
 # Fitswarm
 
-Correlate Fitbit activity with Swarm gym visits.
+Correlate Fitbit activity with Swarm gym visits. Uses Fitbit and Foursquare APIs.
 
 ## How to Develop
 
